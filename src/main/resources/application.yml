@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: task.backend.ch
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.boot: INFO
+service:
+  url: https://storage.googleapis.com/coding-session-rest-api/
