@@ -18,9 +18,10 @@ This Spring Boot application provides functionality to retrieve and display open
 
 ## Resources Used
 
-https://www.baeldung.com/
-https://chatgpt.com/
-https://stackoverflow.com/
+- https://start.spring.io/
+- https://www.baeldung.com/
+- https://chatgpt.com/
+- https://stackoverflow.com/
 
 ## Setup Instructions
 
