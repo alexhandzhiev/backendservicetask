@@ -1,6 +1,14 @@
 spring:
   application:
     name: task.backend.ch
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
 logging:
   level:
     root: INFO
