@@ -2,6 +2,7 @@ package task.backend.ch.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +33,7 @@ public class PlaceInfo {
             this.days = openingDays;
         }
 
-        @JsonIgnoreProperties(ignoreUnknown = true) @Getter
+        @JsonIgnoreProperties(ignoreUnknown = true) @Getter @AllArgsConstructor
         public static class OpeningTime {
             @JsonProperty("start")
             private String start;
