@@ -2,10 +2,7 @@ package task.backend.ch.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.*;
 
@@ -23,17 +20,15 @@ public class PlaceInfo {
     @JsonProperty("opening_hours")
     private OpeningDays openingDays;
 
-    @JsonIgnoreProperties(ignoreUnknown = true) @Getter @NoArgsConstructor
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @Getter @NoArgsConstructor @AllArgsConstructor
     public static class OpeningDays {
 
         @JsonProperty("days")
         private LinkedHashMap<String, List<OpeningTime>> days;
 
-        public OpeningDays(LinkedHashMap<String, List<OpeningTime>> openingDays) {
-            this.days = openingDays;
-        }
-
-        @JsonIgnoreProperties(ignoreUnknown = true) @Getter @AllArgsConstructor
+        @JsonIgnoreProperties(ignoreUnknown = true)
+        @Getter
         public static class OpeningTime {
             @JsonProperty("start")
             private String start;
@@ -41,6 +36,21 @@ public class PlaceInfo {
             private String end;
             @JsonProperty("type")
             private String type;
+
+            // Default constructor
+            public OpeningTime() {
+                // You can initialize fields to default values if necessary
+                this.start = "";
+                this.end = "";
+                this.type = "";
+            }
+
+            // Parameterized constructor
+            public OpeningTime(String start, String end, String type) {
+                this.start = start;
+                this.end = end;
+                this.type = type;
+            }
 
             @Override
             public String toString() {

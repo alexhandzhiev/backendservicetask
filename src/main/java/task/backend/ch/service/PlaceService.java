@@ -51,8 +51,9 @@ public class PlaceService {
         }
     }
 
-    private static final List<String> DAYS_ORDER = Arrays.asList(
-            "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
+//    //we cheat the loop to avoid ArrayIndexOutOfBounds exception (thank you JUnit)
+//    private static final List<String> DAYS_ORDER = Arrays.asList(
+//            "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "cheatday");
 
     public PlaceInfoDTO processPlaceInfo(PlaceInfo placeInfo) {
         //It seems some place are working from tuesday, or they might have very different working weeks,
@@ -65,21 +66,26 @@ public class PlaceService {
         //the remote result list of the working days - LinkedHashMap, so we can retain the ordering, same for the produced ranges
         LinkedHashMap<String, List<PlaceInfo.OpeningDays.OpeningTime>> openingDays = placeInfo.getOpeningDays().getDays();
         for(int i = 0; i < days.size(); i++) {
+            String nextDay = (i < days.size() - 1) ? days.get(i + 1) : lastDay;
             //We're passing through every day against the next day until we find a different Opening Time
             // Ex. Monday - Tuesday, Tuesday - Wednesday until we find a day with a different Opening Time,
             // then we add the range from the current day to the day previous of the one with the different Opening Time,
             // because it means that that day is the last with the same Opening Time - thus the range.
             // Ex. Monday is 1st day and the 1st day with different OT is Friday, so range is Monday - Thursday and we add the OT from one of them
-            if(openingDays.get(currentDay) != null && !openingDays.get(currentDay).equals(openingDays.get(DAYS_ORDER.get(i+1)))) {
-                if(lastDay.equals(days.get(i))) {
-                    ranges.put(currentDay + " - " + days.get(i), openingDays.get(currentDay));
-                } else {
-                    // When we reach the last day we add the last range
-                    // Ex. We have Monday - Thursday and then we have Friday and we reach Sunday, so we put second range Friday - Sunday.
-                    ranges.put(currentDay + " - " + lastDay, openingDays.get(lastDay));
-                }
-                //Increase the currentDay to be the new currentDay with different OT and start anew, so we can find the next range.
-                currentDay = DAYS_ORDER.get(i+1);
+            // Check if the current day's opening time is different from the next day's
+            if (!openingDays.get(currentDay).equals(openingDays.get(nextDay))) {
+                // Determine the range label
+                String rangeLabel = currentDay.equals(days.get(i)) ? currentDay : currentDay + " - " + days.get(i);
+
+                // Add the current range to the result
+                ranges.put(rangeLabel, openingDays.get(currentDay));
+
+                // Update currentDay to the next day in the list
+                currentDay = nextDay;
+            } else if (openingDays.get(currentDay).equals(openingDays.get(lastDay))) {
+                // Handle the case where the entire week has the same opening times or it's the last day
+                String rangeLabel = currentDay.equals(lastDay) ? lastDay : currentDay + " - " + lastDay;
+                ranges.put(rangeLabel, openingDays.get(lastDay));
             }
         }
 
