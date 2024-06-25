@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter @Setter @NoArgsConstructor
 public class PlaceInfoDTO {
@@ -12,9 +13,9 @@ public class PlaceInfoDTO {
     private PlaceInfo.OpeningDays openingDays;
 
     public static class OpeningDays {
-        private LinkedHashMap<String, List<task.backend.ch.model.PlaceInfo.OpeningDays.OpeningTime>> days;
+        private Map<String, List<PlaceInfo.OpeningDays.OpeningTime>> days;
 
-        public OpeningDays(LinkedHashMap<String, List<task.backend.ch.model.PlaceInfo.OpeningDays.OpeningTime>> openingDays) {
+        public OpeningDays(Map<String, List<task.backend.ch.model.PlaceInfo.OpeningDays.OpeningTime>> openingDays) {
             this.days = openingDays;
         }
 

@@ -58,7 +58,7 @@ public class PlaceService {
     public PlaceInfoDTO processPlaceInfo(PlaceInfo placeInfo) {
         //It seems some place are working from tuesday, or they might have very different working weeks,
         //so here should not rely on a standard week, so we get the working days from the remote service result
-        ArrayList<String> days = new ArrayList<>(placeInfo.getOpeningDays().getDays().keySet());
+        List<String> days = new ArrayList<>(placeInfo.getOpeningDays().getDays().keySet());
         String currentDay = placeInfo.getOpeningDays().getDays().firstEntry().getKey();
         String lastDay = placeInfo.getOpeningDays().getDays().lastEntry().getKey();
         //this is where we will store the aggregated opening time ranges
